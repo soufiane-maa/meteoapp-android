@@ -81,7 +81,7 @@ class TemperatureConverterTest {
     fun `given temperature conversion when rounding then returns correct integer`() {
         // Test cases for rounding
         val testCases = listOf(
-            296.84 to 23,     
+            296.84 to 23,
             296.01 to 22,
             307.92 to 34,
             298.33 to 25,

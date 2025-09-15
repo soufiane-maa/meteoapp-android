@@ -104,6 +104,9 @@ dependencies {
     // Test
     testImplementation(libs.coroutines.test)
     testImplementation(libs.mockk)
+    // Hilt testing
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
 }
 
 kapt {
