@@ -166,6 +166,116 @@ app/
 OPENWEATHER_API_KEY=votre_cle_api_openweathermap
 ```
 
+## 📦 Gestion des Dépendances Gradle
+
+### **Approche Moderne avec Version Catalog**
+
+Ce projet utilise l'approche moderne de gestion des dépendances avec **Gradle Version Catalog** (`libs.versions.toml`) au lieu de la méthode classique.
+
+#### **Structure des Fichiers Gradle**
+
+```
+gradle/
+└── libs.versions.toml    # 📋 Catalogue centralisé des versions
+```
+
+#### **Avantages de cette Approche**
+
+✅ **Centralisation** : Toutes les versions dans un seul fichier  
+✅ **Réutilisabilité** : Définitions partagées entre modules  
+✅ **Type Safety** : Autocomplétion et vérification des types  
+✅ **Maintenance** : Mise à jour des versions simplifiée  
+✅ **Lisibilité** : Structure claire et organisée  
+
+#### **Fichier `gradle/libs.versions.toml`**
+
+```toml
+[versions]
+kotlin = "1.9.0"
+hilt = "2.52"
+composeBom = "2024.04.01"
+retrofit = "2.11.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+```
+
+#### **Utilisation dans `build.gradle.kts`**
+
+```kotlin
+dependencies {
+    // Au lieu de : implementation("androidx.core:core-ktx:1.13.1")
+    implementation(libs.androidx.core.ktx)
+    
+    // Au lieu de : implementation("com.google.dagger:hilt-android:2.52")
+    implementation(libs.dagger.hilt.android)
+    
+    // Au lieu de : implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation(libs.retrofit)
+}
+```
+
+#### **Comparaison avec l'Approche Classique**
+
+| **Approche Classique** | **Version Catalog (Moderne)** |
+|------------------------|-------------------------------|
+| `implementation("androidx.core:core-ktx:1.13.1")` | `implementation(libs.androidx.core.ktx)` |
+| Versions éparpillées dans `build.gradle` | Versions centralisées dans `libs.versions.toml` |
+| Risque d'incohérence entre modules | Cohérence garantie |
+| Mise à jour manuelle dans chaque module | Mise à jour centralisée |
+| Pas d'autocomplétion | Autocomplétion et type safety |
+
+#### **Comment Ajouter une Nouvelle Dépendance**
+
+1. **Ajouter la version** dans `[versions]` :
+   ```toml
+   [versions]
+   newLibrary = "1.0.0"
+   ```
+
+2. **Définir la librairie** dans `[libraries]` :
+   ```toml
+   [libraries]
+   new-library = { group = "com.example", name = "new-library", version.ref = "newLibrary" }
+   ```
+
+3. **Utiliser dans `build.gradle.kts`** :
+   ```kotlin
+   dependencies {
+       implementation(libs.new.library)
+   }
+   ```
+
+#### **Migration depuis l'Approche Classique**
+
+Si vous voulez migrer un projet existant :
+
+1. Créer `gradle/libs.versions.toml`
+2. Déplacer toutes les versions vers `[versions]`
+3. Créer les définitions dans `[libraries]`
+4. Remplacer dans `build.gradle.kts` :
+   ```kotlin
+   // Avant
+   implementation("androidx.core:core-ktx:1.13.1")
+   
+   // Après
+   implementation(libs.androidx.core.ktx)
+   ```
+
+#### **Avantages Spécifiques pour ce Projet**
+
+- **30+ dépendances** gérées de manière centralisée
+- **Cohérence** entre les modules (app, test, androidTest)
+- **Maintenance simplifiée** des versions
+- **Type safety** pour éviter les erreurs de typage
+- **Lisibilité améliorée** du fichier `build.gradle.kts`
+
 ## 📱 Captures d'Écran
 
 *Les captures d'écran seront ajoutées ici*
