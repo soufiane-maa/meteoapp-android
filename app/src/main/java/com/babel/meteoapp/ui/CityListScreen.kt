@@ -23,9 +23,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,8 +38,6 @@ import com.babel.meteoapp.domain.CitySummary
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MyLocation
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.ui.platform.LocalContext
 import com.babel.meteoapp.R
 import android.content.Context
@@ -54,6 +49,7 @@ import com.babel.meteoapp.ui.theme.LocalWindowSizeClass
 import com.babel.meteoapp.ui.theme.ResponsiveDesign
 import com.babel.meteoapp.ui.CityCard
 import com.babel.meteoapp.config.ApiConfig
+import com.babel.meteoapp.ui.components.CityListAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,26 +74,10 @@ fun CityListScreen(
     val columnCount = ResponsiveDesign.getColumnCount(windowSizeClass)
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text(context.getString(R.string.app_title)) },
-            actions = {
-                IconButton(onClick = onCurrentLocationClick) {
-                    Icon(Icons.Filled.MyLocation, contentDescription = context.getString(R.string.my_location_desc))
-                }
-                if (isRefreshing) {
-                    // Show loading indicator during refresh
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(16.dp),
-                        color = Color.White,
-                        strokeWidth = 2.dp
-                    )
-                } else {
-                    IconButton(onClick = onRefresh) {
-                        Icon(Icons.Filled.Refresh, contentDescription = context.getString(R.string.refresh_desc))
-                    }
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary, titleContentColor = Color.White, actionIconContentColor = Color.White)
+        CityListAppBar(
+            isRefreshing = isRefreshing,
+            onRefreshClick = onRefresh,
+            onLocationClick = onCurrentLocationClick
         )
 
         OutlinedTextField(

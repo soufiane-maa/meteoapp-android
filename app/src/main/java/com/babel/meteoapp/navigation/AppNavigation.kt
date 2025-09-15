@@ -4,17 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -26,6 +18,7 @@ import androidx.navigation.NavHostController
 import com.babel.meteoapp.ui.CityListScreen
 import com.babel.meteoapp.ui.DetailScreen
 import com.babel.meteoapp.ui.LocationDetailScreen
+import com.babel.meteoapp.ui.components.DetailAppBar
 import com.babel.meteoapp.viewmodel.CityListViewModel
 import com.babel.meteoapp.viewmodel.DetailViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -77,18 +70,9 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
-                    TopAppBar(
-                        title = { Text(city) },
-                        navigationIcon = {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                            titleContentColor = Color.White,
-                            navigationIconContentColor = Color.White
-                        )
+                    DetailAppBar(
+                        title = city,
+                        onBackClick = { navController.popBackStack() }
                     )
                 }
             ) { paddingValues ->
@@ -110,18 +94,9 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
-                    TopAppBar(
-                        title = { Text(context.getString(R.string.current_location_forecast)) },
-                        navigationIcon = {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                            titleContentColor = Color.White,
-                            navigationIconContentColor = Color.White
-                        )
+                    DetailAppBar(
+                        title = context.getString(R.string.current_location_forecast),
+                        onBackClick = { navController.popBackStack() }
                     )
                 }
             ) { paddingValues ->

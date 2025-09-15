@@ -19,6 +19,7 @@
     <string name="my_location_desc">My location</string>
     <string name="refresh_desc">Refresh</string>
     <string name="remove_desc">Remove</string>
+    <string name="back_button_desc">Back</string>
     
     <!-- Weather Information -->
     <string name="humidity_label">Humidity: %1$d%%</string>
