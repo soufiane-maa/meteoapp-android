@@ -19,39 +19,47 @@ object DataValidator {
      * Validate and log temperature data for debugging
      */
     fun validateTemperatureData(response: ForecastResponse): CitySummary {
-        Log.d(TAG, "=== VALIDATING TEMPERATURE DATA ===")
-        Log.d(TAG, "City: ${response.city.name}")
-        Log.d(TAG, "Number of forecast items: ${response.list.size}")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "=== VALIDATING TEMPERATURE DATA ===")
+            Log.d(TAG, "City: ${response.city.name}")
+            Log.d(TAG, "Number of forecast items: ${response.list.size}")
+        }
         
         val first = response.list.firstOrNull()
         if (first == null) {
-            Log.e(TAG, "ERROR: No forecast data available")
+            if (com.babel.meteoapp.BuildConfig.DEBUG) {
+                Log.e(TAG, "ERROR: No forecast data available")
+            }
             return createErrorSummary(response.city.name)
         }
         
         val temp = first.main.temp
         val weather = first.weather.firstOrNull()
         
-        Log.d(TAG, "Raw temperature: $temp")
-        Log.d(TAG, "Temperature type: ${temp::class.simpleName}")
-        Log.d(TAG, "Weather main: ${weather?.main}")
-        Log.d(TAG, "Weather description: ${weather?.description}")
-        Log.d(TAG, "Weather icon: ${weather?.icon}")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "Raw temperature: $temp")
+            Log.d(TAG, "Temperature type: ${temp::class.simpleName}")
+            Log.d(TAG, "Weather main: ${weather?.main}")
+            Log.d(TAG, "Weather description: ${weather?.description}")
+            Log.d(TAG, "Weather icon: ${weather?.icon}")
+        }
         
         // Convert Kelvin to Celsius
         val tempCelsius = temp - 273.15
         val roundedTemp = tempCelsius.roundToInt()
         
-        Log.d(TAG, "Temperature in Kelvin: $temp K")
-        Log.d(TAG, "Temperature in Celsius: ${String.format("%.2f", tempCelsius)}°C")
-        
-        // Validate temperature range (reasonable weather range)
-        if (roundedTemp < -50 || roundedTemp > 60) {
-            Log.w(TAG, "WARNING: Temperature $roundedTemp°C seems unusual")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "Temperature in Kelvin: $temp K")
+            Log.d(TAG, "Temperature in Celsius: ${String.format("%.2f", tempCelsius)}°C")
+            
+            // Validate temperature range (reasonable weather range)
+            if (roundedTemp < -50 || roundedTemp > 60) {
+                Log.w(TAG, "WARNING: Temperature $roundedTemp°C seems unusual")
+            }
+            
+            Log.d(TAG, "Final temperature: ${roundedTemp}°C")
+            Log.d(TAG, "=== END VALIDATION ===")
         }
-        
-        Log.d(TAG, "Final temperature: ${roundedTemp}°C")
-        Log.d(TAG, "=== END VALIDATION ===")
         
         return CitySummary(
             name = response.city.name,
@@ -65,27 +73,35 @@ object DataValidator {
      * Validate forecast details data
      */
     fun validateForecastDetails(response: ForecastResponse): ForecastDetails {
-        Log.d(TAG, "=== VALIDATING FORECAST DETAILS ===")
-        Log.d(TAG, "City: ${response.city.name}")
-        Log.d(TAG, "Number of forecast items: ${response.list.size}")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "=== VALIDATING FORECAST DETAILS ===")
+            Log.d(TAG, "City: ${response.city.name}")
+            Log.d(TAG, "Number of forecast items: ${response.list.size}")
+        }
         
         val days = response.list.mapIndexed { index, item ->
-            Log.d(TAG, "Item $index:")
-            Log.d(TAG, "  Timestamp: ${item.dt}")
-            Log.d(TAG, "  Temperature (K): ${item.main.temp}")
+            if (com.babel.meteoapp.BuildConfig.DEBUG) {
+                Log.d(TAG, "Item $index:")
+                Log.d(TAG, "  Timestamp: ${item.dt}")
+                Log.d(TAG, "  Temperature (K): ${item.main.temp}")
+            }
             
             // Convert Kelvin to Celsius
             val tempCelsius = item.main.temp - 273.15
             val roundedTemp = tempCelsius.roundToInt()
-            Log.d(TAG, "  Temperature (C): ${String.format("%.2f", tempCelsius)}°C")
             
-            Log.d(TAG, "  Humidity: ${item.main.humidity}")
-            Log.d(TAG, "  Pressure: ${item.main.pressure}")
-            Log.d(TAG, "  Wind speed: ${item.wind.speed}")
+            if (com.babel.meteoapp.BuildConfig.DEBUG) {
+                Log.d(TAG, "  Temperature (C): ${String.format("%.2f", tempCelsius)}°C")
+                Log.d(TAG, "  Humidity: ${item.main.humidity}")
+                Log.d(TAG, "  Pressure: ${item.main.pressure}")
+                Log.d(TAG, "  Wind speed: ${item.wind.speed}")
+            }
             
             val weather = item.weather.firstOrNull()
-            Log.d(TAG, "  Weather: ${weather?.main} - ${weather?.description}")
-            Log.d(TAG, "  Icon: ${weather?.icon}")
+            if (com.babel.meteoapp.BuildConfig.DEBUG) {
+                Log.d(TAG, "  Weather: ${weather?.main} - ${weather?.description}")
+                Log.d(TAG, "  Icon: ${weather?.icon}")
+            }
             
             DailyDetail(
                 timestamp = item.dt * 1000,
@@ -98,7 +114,9 @@ object DataValidator {
             )
         }
         
-        Log.d(TAG, "=== END FORECAST VALIDATION ===")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "=== END FORECAST VALIDATION ===")
+        }
         return ForecastDetails(cityName = response.city.name, days = days)
     }
     
@@ -106,7 +124,9 @@ object DataValidator {
      * Create error summary when data is invalid
      */
     private fun createErrorSummary(cityName: String): CitySummary {
-        Log.e(TAG, "Creating error summary for $cityName")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.e(TAG, "Creating error summary for $cityName")
+        }
         return CitySummary(
             name = cityName,
             temperatureCelsius = 0,
@@ -119,19 +139,21 @@ object DataValidator {
      * Log API response for debugging
      */
     fun logApiResponse(response: ForecastResponse) {
-        Log.d(TAG, "=== API RESPONSE DEBUG ===")
-        Log.d(TAG, "City: ${response.city.name}")
-        Log.d(TAG, "Country: ${response.city.country}")
-        Log.d(TAG, "Coordinates: ${response.city.coord.lat}, ${response.city.coord.lon}")
-        Log.d(TAG, "Forecast items count: ${response.list.size}")
-        
-        response.list.take(3).forEachIndexed { index, item ->
-            Log.d(TAG, "Item $index:")
-            Log.d(TAG, "  DT: ${item.dt}")
-            Log.d(TAG, "  Main: temp=${item.main.temp}, pressure=${item.main.pressure}, humidity=${item.main.humidity}")
-            Log.d(TAG, "  Wind: speed=${item.wind.speed}")
-            Log.d(TAG, "  Weather: ${item.weather.map { "${it.main} (${it.description})" }}")
+        if (com.babel.meteoapp.BuildConfig.DEBUG) {
+            Log.d(TAG, "=== API RESPONSE DEBUG ===")
+            Log.d(TAG, "City: ${response.city.name}")
+            Log.d(TAG, "Country: ${response.city.country}")
+            Log.d(TAG, "Coordinates: ${response.city.coord.lat}, ${response.city.coord.lon}")
+            Log.d(TAG, "Forecast items count: ${response.list.size}")
+            
+            response.list.take(3).forEachIndexed { index, item ->
+                Log.d(TAG, "Item $index:")
+                Log.d(TAG, "  DT: ${item.dt}")
+                Log.d(TAG, "  Main: temp=${item.main.temp}, pressure=${item.main.pressure}, humidity=${item.main.humidity}")
+                Log.d(TAG, "  Wind: speed=${item.wind.speed}")
+                Log.d(TAG, "  Weather: ${item.weather.map { "${it.main} (${it.description})" }}")
+            }
+            Log.d(TAG, "=== END API RESPONSE DEBUG ===")
         }
-        Log.d(TAG, "=== END API RESPONSE DEBUG ===")
     }
 }

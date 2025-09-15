@@ -1,15 +1,31 @@
 package com.babel.meteoapp
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ViewModelsTest {
+
     @Test
-    fun `test basic functionality`() {
-        // Test simple pour vérifier que les classes peuvent être instanciées
+    fun `given fake repository when creating then repository is not null`() {
+        // Given & When
         val repo = FakeWeatherRepository()
-        assert(repo != null)
+        
+        // Then
+        assertNotNull("Repository should not be null", repo)
+    }
+
+    @Test
+    fun `given fake repository when setting should fail then repository has correct state`() {
+        // Given
+        val repo = FakeWeatherRepository()
+        
+        // When
+        repo.shouldFail = true
+        
+        // Then
+        assertNotNull("Repository should not be null", repo)
+        assertTrue("Repository should be set to fail", repo.shouldFail)
     }
 }
 
