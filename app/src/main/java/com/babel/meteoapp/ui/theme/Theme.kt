@@ -18,6 +18,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.dimensionResource
 import com.babel.meteoapp.R
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
+import android.app.Activity
 
 private val DarkColorScheme = darkColorScheme(
     primary = BluePrimaryDark,
@@ -86,17 +95,52 @@ private val AppShapes = Shapes(
     extraLarge = ShapeDefaults.ExtraLarge
 )
 
+/**
+ * Local provider for WindowSizeClass to enable responsive design throughout the app
+ * This allows any composable to access the current window size class and adapt accordingly
+ */
+val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> { 
+    error("WindowSizeClass not provided") 
+}
+
+/**
+ * Main theme composable that provides responsive design support
+ * Calculates window size class and makes it available throughout the app
+ * 
+ * Features:
+ * - Automatic window size detection
+ * - Fallback for non-Activity contexts
+ * - Local provider for responsive utilities
+ */
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MeteoAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography(),
-        shapes = AppShapes,
-        content = content
-    )
+    val context = LocalContext.current
+    val activity = context as? Activity
+    val windowSizeClass = if (activity != null) {
+        calculateWindowSizeClass(activity)
+    } else {
+        // Fallback for non-Activity contexts using screen dimensions
+        WindowSizeClass.calculateFromSize(
+            androidx.compose.ui.unit.DpSize(
+                width = LocalConfiguration.current.screenWidthDp.dp,
+                height = LocalConfiguration.current.screenHeightDp.dp
+            )
+        )
+    }
+    
+    // Provide window size class to all child composables
+    CompositionLocalProvider(LocalWindowSizeClass provides windowSizeClass) {
+        val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = AppTypography(),
+            shapes = AppShapes,
+            content = content
+        )
+    }
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tablette - Dimensions plus grandes -->
+    
+    <!-- Spacing - Plus d'espace sur tablette -->
+    <dimen name="spacing_xs">6dp</dimen>
+    <dimen name="spacing_sm">12dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+    
+    <!-- Padding - Plus de padding sur tablette -->
+    <dimen name="padding_xs">6dp</dimen>
+    <dimen name="padding_sm">12dp</dimen>
+    <dimen name="padding_md">16dp</dimen>
+    <dimen name="padding_lg">24dp</dimen>
+    <dimen name="padding_xl">32dp</dimen>
+    <dimen name="padding_xxl">40dp</dimen>
+    
+    <!-- Margins -->
+    <dimen name="margin_xs">6dp</dimen>
+    <dimen name="margin_sm">12dp</dimen>
+    <dimen name="margin_md">16dp</dimen>
+    <dimen name="margin_lg">24dp</dimen>
+    <dimen name="margin_xl">32dp</dimen>
+    <dimen name="margin_xxl">40dp</dimen>
+    
+    <!-- Icon sizes - Plus grandes sur tablette -->
+    <dimen name="icon_sm">20dp</dimen>
+    <dimen name="icon_md">32dp</dimen>
+    <dimen name="icon_lg">40dp</dimen>
+    <dimen name="icon_xl">56dp</dimen>
+    
+    <!-- Button sizes -->
+    <dimen name="button_height_sm">40dp</dimen>
+    <dimen name="button_height_md">48dp</dimen>
+    <dimen name="button_height_lg">56dp</dimen>
+    
+    <!-- Card dimensions -->
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_corner_radius_lg">16dp</dimen>
+    
+    <!-- Text sizes - Plus grandes sur tablette -->
+    <dimen name="text_size_xs">12sp</dimen>
+    <dimen name="text_size_sm">14sp</dimen>
+    <dimen name="text_size_md">16sp</dimen>
+    <dimen name="text_size_lg">18sp</dimen>
+    <dimen name="text_size_xl">20sp</dimen>
+    <dimen name="text_size_xxl">24sp</dimen>
+    <dimen name="text_size_title">28sp</dimen>
+    <dimen name="text_size_headline">32sp</dimen>
+    
+    <!-- Weather specific - Plus grandes sur tablette -->
+    <dimen name="weather_icon_size">64dp</dimen>
+    <dimen name="weather_icon_size_lg">80dp</dimen>
+    <dimen name="temperature_text_size">22sp</dimen>
+    <dimen name="city_name_text_size">20sp</dimen>
+    
+    <!-- List item dimensions -->
+    <dimen name="list_item_height">88dp</dimen>
+    <dimen name="list_item_padding_horizontal">24dp</dimen>
+    <dimen name="list_item_padding_vertical">16dp</dimen>
+    
+    <!-- Search bar dimensions -->
+    <dimen name="search_bar_height">56dp</dimen>
+    <dimen name="search_bar_corner_radius">28dp</dimen>
+    
+    <!-- App bar dimensions -->
+    <dimen name="app_bar_height">64dp</dimen>
+    <dimen name="app_bar_elevation">6dp</dimen>
+    
+    <!-- Layout dimensions pour tablette -->
+    <dimen name="max_content_width">600dp</dimen>
+    <dimen name="content_padding_horizontal">32dp</dimen>
+</resources>

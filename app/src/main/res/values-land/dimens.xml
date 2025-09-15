@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Orientation paysage - Optimisations pour l'horizontal -->
+    
+    <!-- Padding horizontal réduit en paysage -->
+    <dimen name="padding_lg">12dp</dimen>
+    <dimen name="padding_xl">16dp</dimen>
+    <dimen name="padding_xxl">20dp</dimen>
+    
+    <!-- Margins horizontales réduites -->
+    <dimen name="margin_lg">12dp</dimen>
+    <dimen name="margin_xl">16dp</dimen>
+    <dimen name="margin_xxl">20dp</dimen>
+    
+    <!-- App bar plus petite en paysage -->
+    <dimen name="app_bar_height">48dp</dimen>
+    
+    <!-- List item plus compacte en paysage -->
+    <dimen name="list_item_height">64dp</dimen>
+    <dimen name="list_item_padding_horizontal">12dp</dimen>
+    <dimen name="list_item_padding_vertical">8dp</dimen>
+    
+    <!-- Text sizes légèrement réduites en paysage -->
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_headline">24sp</dimen>
+    
+    <!-- Weather icons plus petites en paysage -->
+    <dimen name="weather_icon_size">40dp</dimen>
+    <dimen name="weather_icon_size_lg">48dp</dimen>
+</resources>

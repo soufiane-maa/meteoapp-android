@@ -92,6 +92,8 @@ dependencies {
     implementation(libs.play.services.location)
     // Permissions helper
     implementation(libs.accompanist.permissions)
+    // Window size class for responsive design
+    implementation(libs.window.size)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

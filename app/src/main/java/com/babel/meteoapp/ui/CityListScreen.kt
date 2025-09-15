@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +46,12 @@ import androidx.compose.ui.platform.LocalContext
 import com.babel.meteoapp.R
 import android.content.Context
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import com.babel.meteoapp.ui.theme.LocalWindowSizeClass
+import com.babel.meteoapp.ui.theme.ResponsiveDesign
+import com.babel.meteoapp.ui.CityCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +67,13 @@ fun CityListScreen(
     onCurrentLocationClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val windowSizeClass = LocalWindowSizeClass.current
     var input by remember { mutableStateOf("") }
+    
+    // Responsive design values - adapt UI based on screen size
+    val isTablet = ResponsiveDesign.isTablet(windowSizeClass)
+    val isLandscape = ResponsiveDesign.isLandscape(windowSizeClass)
+    val columnCount = ResponsiveDesign.getColumnCount(windowSizeClass)
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
@@ -106,9 +122,24 @@ fun CityListScreen(
             Text(text = errorMessage, color = Color.Red, modifier = Modifier.padding(dimensionResource(R.dimen.padding_lg)))
         }
 
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))) {
-            items(summaries, key = { it.name }) { item ->
-                CityRow(item, onRemove = { onRemoveCity(item.name) }, onClick = { onCityClick(item.name) }, context = context)
+        if (isTablet) {
+            // Grid layout for tablets - better use of screen space
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(columnCount),
+                modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md)),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))
+            ) {
+                items(summaries, key = { it.name }) { item ->
+                    CityCard(item, onRemove = { onRemoveCity(item.name) }, onClick = { onCityClick(item.name) }, context = context)
+                }
+            }
+        } else {
+            // List layout for phones - optimized for narrow screens
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))) {
+                items(summaries, key = { it.name }) { item ->
+                    CityRow(item, onRemove = { onRemoveCity(item.name) }, onClick = { onCityClick(item.name) }, context = context)
+                }
             }
         }
     }
