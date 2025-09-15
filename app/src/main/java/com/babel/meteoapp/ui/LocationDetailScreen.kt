@@ -32,7 +32,8 @@ fun LocationDetailScreen(
     data: ForecastDetails?,
     isLoading: Boolean,
     errorMessage: String?,
-    onResolveLocationAndLoad: (Double, Double) -> Unit
+    onResolveLocationAndLoad: (Double, Double) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val coarsePermission = rememberPermissionState(android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -43,7 +44,7 @@ fun LocationDetailScreen(
         if (!finePermission.status.isGranted) finePermission.launchPermissionRequest()
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
+    Column(modifier = modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
         Text(context.getString(R.string.current_location_forecast), style = MaterialTheme.typography.headlineSmall)
         if (errorMessage != null) Text(errorMessage, color = MaterialTheme.colorScheme.error)
         Button(onClick = {

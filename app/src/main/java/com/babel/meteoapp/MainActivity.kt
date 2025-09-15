@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.isSystemInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
 import com.babel.meteoapp.navigation.AppNavHost
 import com.babel.meteoapp.ui.LocationDetailScreen
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MeteoAppTheme {
+            val isDarkTheme = isSystemInDarkTheme()
+            MeteoAppTheme(darkTheme = isDarkTheme) {
                 App()
             }
         }

@@ -29,11 +29,12 @@ fun DetailScreen(
     data: ForecastDetails?,
     isLoading: Boolean,
     errorMessage: String?,
-    onLoad: (String) -> Unit
+    onLoad: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     LaunchedEffect(city) { onLoad(city) }
-    Column(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg))) {
+    Column(modifier = modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg))) {
         Text(text = city, style = MaterialTheme.typography.headlineSmall)
         if (errorMessage != null) Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
         if (data != null) {

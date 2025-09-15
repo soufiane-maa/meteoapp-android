@@ -2,9 +2,20 @@ package com.babel.meteoapp.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -30,6 +41,7 @@ sealed class Route(val path: String) {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
     val context = LocalContext.current
@@ -62,25 +74,65 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             val details = vm.details.collectAsStateWithLifecycle(null)
             val isLoading = vm.isLoading.collectAsStateWithLifecycle(false)
             val error = vm.errorMessage.collectAsStateWithLifecycle(null)
-            DetailScreen(
-                city = city,
-                data = details.value,
-                isLoading = isLoading.value,
-                errorMessage = error.value,
-                onLoad = vm::loadByCity
-            )
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    TopAppBar(
+                        title = { Text(city) },
+                        navigationIcon = {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                            titleContentColor = Color.White,
+                            navigationIconContentColor = Color.White
+                        )
+                    )
+                }
+            ) { paddingValues ->
+                DetailScreen(
+                    city = city,
+                    data = details.value,
+                    isLoading = isLoading.value,
+                    errorMessage = error.value,
+                    onLoad = vm::loadByCity,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
         }
         composable(context.getString(R.string.nav_detail_by_coords)) {
             val vm: DetailViewModel = hiltViewModel()
             val details = vm.details.collectAsStateWithLifecycle(null)
             val isLoading = vm.isLoading.collectAsStateWithLifecycle(false)
             val error = vm.errorMessage.collectAsStateWithLifecycle(null)
-            LocationDetailScreen(
-                data = details.value,
-                isLoading = isLoading.value,
-                errorMessage = error.value,
-                onResolveLocationAndLoad = { lat, lon -> vm.loadByCoords(lat, lon) }
-            )
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    TopAppBar(
+                        title = { Text(context.getString(R.string.current_location_forecast)) },
+                        navigationIcon = {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                            titleContentColor = Color.White,
+                            navigationIconContentColor = Color.White
+                        )
+                    )
+                }
+            ) { paddingValues ->
+                LocationDetailScreen(
+                    data = details.value,
+                    isLoading = isLoading.value,
+                    errorMessage = error.value,
+                    onResolveLocationAndLoad = { lat, lon -> vm.loadByCoords(lat, lon) },
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
         }
     }
 }
