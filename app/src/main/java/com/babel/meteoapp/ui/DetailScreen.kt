@@ -21,7 +21,9 @@ import com.babel.meteoapp.domain.ForecastDetails
 import androidx.compose.ui.platform.LocalContext
 import com.babel.meteoapp.R
 import androidx.compose.ui.res.dimensionResource
+import com.babel.meteoapp.BuildConfig
 import com.babel.meteoapp.config.ApiConfig
+import com.babel.meteoapp.ui.components.DebugPanel
 
 @Composable
 fun DetailScreen(
@@ -50,6 +52,15 @@ fun DetailScreen(
                     }
                 }
             }
+        }
+        
+        // Debug panel (only in debug builds)
+        if (BuildConfig.DEBUG) {
+            DebugPanel(
+                citySummary = null,
+                forecastDetails = data,
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_md))
+            )
         }
     }
 }
