@@ -1,17 +1,10 @@
 # WeatherWise 🌤️
 
-Une application météo moderne développée avec Android Jetpack Compose et l'architecture MVVM.
+Une application météo  développée avec Android Jetpack Compose et l'architecture MVVM.
 
-## 📱 Description
 
-WeatherWise est une application météo qui permet aux utilisateurs de :
-- Consulter la météo de plusieurs villes
-- Ajouter et supprimer des villes
-- Utiliser la géolocalisation pour obtenir la météo de leur position actuelle
-- Avoir une interface responsive adaptée aux téléphones et tablettes
-- Bénéficier du mode sombre
 
-## 🏗️ Architecture
+## Architecture
 
 L'application suit l'architecture **MVVM (Model-View-ViewModel)** avec :
 - **Clean Architecture** : Séparation claire des couches (Data, Domain, Presentation)
@@ -74,7 +67,7 @@ L'application suit l'architecture **MVVM (Model-View-ViewModel)** avec :
 - **Compose Test Rule** : 2024.04.01
 - **Compose UI Test Manifest** : 2024.04.01
 
-## 📦 Structure du Projet
+##  Structure du Projet
 
 ```
 app/
@@ -100,73 +93,9 @@ app/
 │   └── androidTest/            # Tests d'intégration et UI
 ```
 
-## 🧪 Tests
 
-### **Tests Unitaires (26 tests)**
-- **UseCasesTest** : 5 tests ✅
-- **ViewModelsTest** : 2 tests ✅
-- **TemperatureConverterTest** : 10 tests ✅
-- **DataValidatorTest** : 5 tests ✅
-- **MappersTest** : 3 tests ✅
-- **ExampleUnitTest** : 1 test ✅
 
-### **Tests d'Intégration (4 tests)**
-- **DataConversionIntegrationTest** : 4 tests ✅
-  - Conversion ForecastResponse → CitySummary
-  - Conversion ForecastResponse → ForecastDetails
-  - Gestion des données multiples
-  - Gestion des cas limites
-
-### **Tests UI (À venir)**
-- Tests des composants Compose
-- Tests de navigation
-- Tests d'interaction utilisateur
-
-## 🚀 Fonctionnalités
-
-### **Fonctionnalités Principales**
-- ✅ Liste des villes avec météo
-- ✅ Ajout/suppression de villes
-- ✅ Recherche de villes
-- ✅ Météo par géolocalisation
-- ✅ Interface responsive (téléphone/tablette)
-- ✅ Mode sombre
-- ✅ Actualisation des données
-
-### **Fonctionnalités Techniques**
-- ✅ Architecture MVVM
-- ✅ Injection de dépendances (Hilt)
-- ✅ Navigation Compose
-- ✅ Gestion d'état réactive
-- ✅ Tests unitaires et d'intégration
-- ✅ Design responsive
-- ✅ Gestion des erreurs
-
-## 🔧 Configuration
-
-### **Prérequis**
-- Android Studio Hedgehog ou plus récent
-- JDK 8 ou plus récent
-- Android SDK API 24+
-- Clé API OpenWeatherMap
-
-### **Installation**
-1. Cloner le repository
-2. Ouvrir dans Android Studio
-3. Ajouter votre clé API OpenWeatherMap dans `local.properties` :
-   ```properties
-   OPENWEATHER_API_KEY=votre_cle_api_ici
-   ```
-4. Synchroniser le projet
-5. Lancer l'application
-
-### **Variables d'Environnement**
-```properties
-# local.properties
-OPENWEATHER_API_KEY=votre_cle_api_openweathermap
-```
-
-## 📦 Gestion des Dépendances Gradle
+##  Gestion des Dépendances Gradle
 
 ### **Approche Moderne avec Version Catalog**
 
@@ -179,13 +108,6 @@ gradle/
 └── libs.versions.toml    # 📋 Catalogue centralisé des versions
 ```
 
-#### **Avantages de cette Approche**
-
-✅ **Centralisation** : Toutes les versions dans un seul fichier  
-✅ **Réutilisabilité** : Définitions partagées entre modules  
-✅ **Type Safety** : Autocomplétion et vérification des types  
-✅ **Maintenance** : Mise à jour des versions simplifiée  
-✅ **Lisibilité** : Structure claire et organisée  
 
 #### **Fichier `gradle/libs.versions.toml`**
 
@@ -221,129 +143,5 @@ dependencies {
 }
 ```
 
-#### **Comparaison avec l'Approche Classique**
 
-| **Approche Classique** | **Version Catalog (Moderne)** |
-|------------------------|-------------------------------|
-| `implementation("androidx.core:core-ktx:1.13.1")` | `implementation(libs.androidx.core.ktx)` |
-| Versions éparpillées dans `build.gradle` | Versions centralisées dans `libs.versions.toml` |
-| Risque d'incohérence entre modules | Cohérence garantie |
-| Mise à jour manuelle dans chaque module | Mise à jour centralisée |
-| Pas d'autocomplétion | Autocomplétion et type safety |
 
-#### **Comment Ajouter une Nouvelle Dépendance**
-
-1. **Ajouter la version** dans `[versions]` :
-   ```toml
-   [versions]
-   newLibrary = "1.0.0"
-   ```
-
-2. **Définir la librairie** dans `[libraries]` :
-   ```toml
-   [libraries]
-   new-library = { group = "com.example", name = "new-library", version.ref = "newLibrary" }
-   ```
-
-3. **Utiliser dans `build.gradle.kts`** :
-   ```kotlin
-   dependencies {
-       implementation(libs.new.library)
-   }
-   ```
-
-#### **Migration depuis l'Approche Classique**
-
-Si vous voulez migrer un projet existant :
-
-1. Créer `gradle/libs.versions.toml`
-2. Déplacer toutes les versions vers `[versions]`
-3. Créer les définitions dans `[libraries]`
-4. Remplacer dans `build.gradle.kts` :
-   ```kotlin
-   // Avant
-   implementation("androidx.core:core-ktx:1.13.1")
-   
-   // Après
-   implementation(libs.androidx.core.ktx)
-   ```
-
-#### **Avantages Spécifiques pour ce Projet**
-
-- **30+ dépendances** gérées de manière centralisée
-- **Cohérence** entre les modules (app, test, androidTest)
-- **Maintenance simplifiée** des versions
-- **Type safety** pour éviter les erreurs de typage
-- **Lisibilité améliorée** du fichier `build.gradle.kts`
-
-## 📱 Captures d'Écran
-
-*Les captures d'écran seront ajoutées ici*
-
-## 🎨 Design
-
-L'application utilise :
-- **Material Design 3** pour les composants UI
-- **Design responsive** adaptatif selon la taille d'écran
-- **Mode sombre** automatique selon les préférences système
-- **Icônes météo** dynamiques via l'API OpenWeatherMap
-
-## 🔄 API
-
-L'application utilise l'API **OpenWeatherMap** :
-- **Endpoint** : `https://api.openweathermap.org/data/2.5/forecast`
-- **Format** : JSON
-- **Données** : Prévisions sur 5 jours, 3h par 3h
-- **Unités** : Température en Kelvin (convertie en Celsius)
-
-## 🧪 Exécution des Tests
-
-### **Tests Unitaires**
-```bash
-./gradlew test
-```
-
-### **Tests d'Intégration**
-```bash
-./gradlew connectedAndroidTest
-```
-
-### **Tous les Tests**
-```bash
-./gradlew test connectedAndroidTest
-```
-
-## 📈 Métriques de Qualité
-
-- **Couverture de Code** : 85%+
-- **Tests Unitaires** : 26/26 ✅
-- **Tests d'Intégration** : 4/4 ✅
-- **Lint** : 0 erreurs
-- **Performance** : Optimisée
-
-## 🤝 Contribution
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
-3. Commiter les changements (`git commit -m 'Ajouter nouvelle fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 👨‍💻 Auteur
-
-Développé dans le cadre du cours Udemy "To-Do App with Jetpack Compose MVVM - Android Development"
-
-## 🙏 Remerciements
-
-- **OpenWeatherMap** pour l'API météo
-- **Google** pour les librairies Android Jetpack
-- **JetBrains** pour Kotlin
-- **Udemy** pour le cours de formation
-
----
-
-**WeatherWise** - Une application météo moderne et élégante 🌤️
