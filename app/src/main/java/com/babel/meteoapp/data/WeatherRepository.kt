@@ -10,9 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WeatherRepositoryImpl(
-    private val apiKeyProvider: () -> String
+    private val apiKeyProvider: () -> String,
+    private val retrofitProvider: RetrofitProvider
 ) : WeatherRepository {
-    private val api = RetrofitProvider.apiService
+    private val api = retrofitProvider.apiService
 
     override suspend fun fetchCitySummary(city: String): Result<CitySummary> = runCatching {
         withContext(Dispatchers.IO) {

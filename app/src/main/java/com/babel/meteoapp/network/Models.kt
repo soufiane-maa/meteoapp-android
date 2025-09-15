@@ -2,6 +2,10 @@ package com.babel.meteoapp.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.babel.meteoapp.R
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 @JsonClass(generateAdapter = true)
 data class ForecastResponse(

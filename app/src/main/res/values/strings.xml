@@ -1,3 +1,68 @@
 <resources>
     <string name="app_name">MeteoApp</string>
+    
+    <!-- Navigation -->
+    <string name="nav_list">list</string>
+    <string name="nav_detail">detail/{city}</string>
+    <string name="nav_detail_by_coords">detail_by_coords</string>
+    <string name="nav_city_arg">city</string>
+    
+    <!-- UI Labels -->
+    <string name="app_title">Meteo</string>
+    <string name="search_city_hint">Search city...</string>
+    <string name="add_city_hint">Add city</string>
+    <string name="add_button">Add</string>
+    <string name="current_location_forecast">Current location forecast</string>
+    <string name="use_current_location">Use current location</string>
+    
+    <!-- Content Descriptions -->
+    <string name="my_location_desc">My location</string>
+    <string name="refresh_desc">Refresh</string>
+    <string name="remove_desc">Remove</string>
+    
+    <!-- Weather Information -->
+    <string name="humidity_label">Humidity: %1$d%%</string>
+    <string name="wind_label">Wind: %.1f m/s</string>
+    <string name="pressure_label">Pressure: %1$d hPa</string>
+    <string name="temperature_format">%1$d°C</string>
+    <string name="temperature_with_weather">%1$d°C - %2$s</string>
+    <string name="city_weather_format">%1$s: %2$d°C %3$s</string>
+    
+    <!-- Default Cities -->
+    <string name="default_city_casablanca">Casablanca</string>
+    <string name="default_city_rabat">Rabat</string>
+    <string name="default_city_marrakech">Marrakech</string>
+    <string name="default_city_tangier">Tangier</string>
+    <string name="default_city_fes">Fes</string>
+    
+    <!-- Error Messages -->
+    <string name="no_location_error">No location</string>
+    
+    <!-- API -->
+    <string name="api_base_url">https://api.openweathermap.org/</string>
+    <string name="api_forecast_endpoint">data/2.5/forecast</string>
+    <string name="api_units_metric">metric</string>
+    <string name="weather_icon_base_url">https://openweathermap.org/img/wn/</string>
+    <string name="weather_icon_suffix">@2x.png</string>
+    
+    <!-- JSON Field Names -->
+    <string name="json_list">list</string>
+    <string name="json_city">city</string>
+    <string name="json_id">id</string>
+    <string name="json_name">name</string>
+    <string name="json_coord">coord</string>
+    <string name="json_country">country</string>
+    <string name="json_lat">lat</string>
+    <string name="json_lon">lon</string>
+    <string name="json_dt">dt</string>
+    <string name="json_main">main</string>
+    <string name="json_weather">weather</string>
+    <string name="json_wind">wind</string>
+    <string name="json_temp">temp</string>
+    <string name="json_pressure">pressure</string>
+    <string name="json_humidity">humidity</string>
+    <string name="json_main_weather">main</string>
+    <string name="json_description">description</string>
+    <string name="json_icon">icon</string>
+    <string name="json_speed">speed</string>
 </resources>

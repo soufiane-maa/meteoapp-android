@@ -38,6 +38,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.ui.platform.LocalContext
+import com.babel.meteoapp.R
+import android.content.Context
+import androidx.compose.ui.res.dimensionResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,17 +56,18 @@ fun CityListScreen(
     onCityClick: (String) -> Unit,
     onCurrentLocationClick: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     var input by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Meteo") },
+            title = { Text(context.getString(R.string.app_title)) },
             actions = {
                 IconButton(onClick = onCurrentLocationClick) {
-                    Icon(Icons.Filled.MyLocation, contentDescription = "My location")
+                    Icon(Icons.Filled.MyLocation, contentDescription = context.getString(R.string.my_location_desc))
                 }
                 IconButton(onClick = onRefresh) {
-                    Icon(androidx.compose.material.icons.Icons.Default.Refresh, contentDescription = "Refresh")
+                    Icon(androidx.compose.material.icons.Icons.Default.Refresh, contentDescription = context.getString(R.string.refresh_desc))
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary, titleContentColor = Color.White, actionIconContentColor = Color.White)
@@ -71,54 +76,54 @@ fun CityListScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.padding_lg)),
             value = input,
             onValueChange = {
                 input = it
                 onSearchChange(it)
             },
-            placeholder = { Text("Search city...") }
+            placeholder = { Text(context.getString(R.string.search_city_hint)) }
         )
 
         Row(modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            .padding(horizontal = dimensionResource(R.dimen.padding_lg)), horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))) {
             OutlinedTextField(
                 modifier = Modifier.weight(1f),
                 value = input,
                 onValueChange = { input = it },
-                placeholder = { Text("Add city") }
+                placeholder = { Text(context.getString(R.string.add_city_hint)) }
             )
             Button(onClick = {
                 if (input.isNotBlank()) {
                     onAddCity(input)
                     input = ""
                 }
-            }) { Text("Add") }
+            }) { Text(context.getString(R.string.add_button)) }
         }
 
         if (errorMessage != null) {
-            Text(text = errorMessage, color = Color.Red, modifier = Modifier.padding(16.dp))
+            Text(text = errorMessage, color = Color.Red, modifier = Modifier.padding(dimensionResource(R.dimen.padding_lg)))
         }
 
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))) {
             items(summaries, key = { it.name }) { item ->
-                CityRow(item, onRemove = { onRemoveCity(item.name) }, onClick = { onCityClick(item.name) })
+                CityRow(item, onRemove = { onRemoveCity(item.name) }, onClick = { onCityClick(item.name) }, context = context)
             }
         }
     }
 }
 
 @Composable
-private fun CityRow(item: CitySummary, onRemove: () -> Unit, onClick: () -> Unit) {
+private fun CityRow(item: CitySummary, onRemove: () -> Unit, onClick: () -> Unit, context: Context) {
     Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            .padding(dimensionResource(R.dimen.padding_lg)), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
                 AsyncImage(
-                    model = "https://openweathermap.org/img/wn/${item.icon}@2x.png",
+                    model = "${context.getString(R.string.weather_icon_base_url)}${item.icon}${context.getString(R.string.weather_icon_suffix)}",
                     contentDescription = null
                 )
                 Column {
@@ -126,10 +131,10 @@ private fun CityRow(item: CitySummary, onRemove: () -> Unit, onClick: () -> Unit
                     Text(item.weatherMain)
                 }
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(text = "${item.temperatureCelsius}°C", style = MaterialTheme.typography.titleMedium)
+            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))) {
+                Text(text = context.getString(R.string.temperature_format, item.temperatureCelsius), style = MaterialTheme.typography.titleMedium)
                 IconButton(onClick = onRemove) {
-                    Icon(androidx.compose.material.icons.Icons.Default.Delete, contentDescription = "Remove")
+                    Icon(androidx.compose.material.icons.Icons.Default.Delete, contentDescription = context.getString(R.string.remove_desc))
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.babel.meteoapp.navigation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -17,6 +18,8 @@ import com.babel.meteoapp.ui.LocationDetailScreen
 import com.babel.meteoapp.viewmodel.CityListViewModel
 import com.babel.meteoapp.viewmodel.DetailViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.LocalContext
+import com.babel.meteoapp.R
 
 sealed class Route(val path: String) {
     data object List : Route("list")
@@ -26,10 +29,12 @@ sealed class Route(val path: String) {
     data object DetailByCoords : Route("detail_by_coords")
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
-    NavHost(navController = navController, startDestination = Route.List.path) {
-        composable(Route.List.path) {
+    val context = LocalContext.current
+    NavHost(navController = navController, startDestination = context.getString(R.string.nav_list)) {
+        composable(context.getString(R.string.nav_list)) {
             val vm: CityListViewModel = hiltViewModel()
             val summaries = vm.filteredSummaries.collectAsStateWithLifecycle(emptyList())
             val isRefreshing = vm.isRefreshing.collectAsStateWithLifecycle(false)
@@ -49,10 +54,10 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             }
         }
         composable(
-            route = Route.Detail.path,
-            arguments = listOf(navArgument("city") { type = NavType.StringType })
+            route = context.getString(R.string.nav_detail),
+            arguments = listOf(navArgument(context.getString(R.string.nav_city_arg)) { type = NavType.StringType })
         ) { backStackEntry ->
-            val city = backStackEntry.arguments?.getString("city") ?: ""
+            val city = backStackEntry.arguments?.getString(context.getString(R.string.nav_city_arg)) ?: ""
             val vm: DetailViewModel = hiltViewModel()
             val details = vm.details.collectAsStateWithLifecycle(null)
             val isLoading = vm.isLoading.collectAsStateWithLifecycle(false)
@@ -65,7 +70,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
                 onLoad = vm::loadByCity
             )
         }
-        composable(Route.DetailByCoords.path) {
+        composable(context.getString(R.string.nav_detail_by_coords)) {
             val vm: DetailViewModel = hiltViewModel()
             val details = vm.details.collectAsStateWithLifecycle(null)
             val isLoading = vm.isLoading.collectAsStateWithLifecycle(false)

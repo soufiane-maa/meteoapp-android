@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     // Hilt
     implementation(libs.dagger.hilt.android)
+    implementation(libs.core.ktx)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     // Networking

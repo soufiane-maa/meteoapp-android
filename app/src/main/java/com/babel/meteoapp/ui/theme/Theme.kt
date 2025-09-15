@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import com.babel.meteoapp.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = BluePrimaryDark,
@@ -49,29 +51,32 @@ private val LightColorScheme = lightColorScheme(
     onError = OnError
 )
 
-private val AppTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
-        fontSize = 48.sp
-    ),
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 12.sp
+@Composable
+private fun AppTypography(): Typography {
+    return Typography(
+        displayLarge = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            fontSize = dimensionResource(R.dimen.text_size_headline).value.sp
+        ),
+        titleLarge = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = dimensionResource(R.dimen.text_size_xl).value.sp
+        ),
+        bodyLarge = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Normal,
+            fontSize = dimensionResource(R.dimen.text_size_lg).value.sp,
+            lineHeight = dimensionResource(R.dimen.text_size_xl).value.sp
+        ),
+        labelMedium = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Medium,
+            fontSize = dimensionResource(R.dimen.text_size_sm).value.sp
+        )
     )
-)
+}
 
 private val AppShapes = Shapes(
     extraSmall = ShapeDefaults.ExtraSmall,
@@ -90,7 +95,7 @@ fun MeteoAppTheme(
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography,
+        typography = AppTypography(),
         shapes = AppShapes,
         content = content
     )

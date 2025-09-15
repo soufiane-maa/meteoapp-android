@@ -6,9 +6,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import com.babel.meteoapp.R
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-object RetrofitProvider {
-    private const val BASE_URL = "https://api.openweathermap.org/"
+class RetrofitProvider @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+    private val baseUrl = context.getString(R.string.api_base_url)
 
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {
@@ -31,7 +37,7 @@ object RetrofitProvider {
     val apiService: ApiService by lazy {
         Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(ApiService::class.java)

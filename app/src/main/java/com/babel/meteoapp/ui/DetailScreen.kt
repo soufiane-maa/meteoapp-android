@@ -18,6 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.babel.meteoapp.domain.ForecastDetails
+import androidx.compose.ui.platform.LocalContext
+import com.babel.meteoapp.R
+import androidx.compose.ui.res.dimensionResource
 
 @Composable
 fun DetailScreen(
@@ -27,20 +30,21 @@ fun DetailScreen(
     errorMessage: String?,
     onLoad: (String) -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(city) { onLoad(city) }
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg))) {
         Text(text = city, style = MaterialTheme.typography.headlineSmall)
         if (errorMessage != null) Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
         if (data != null) {
             val today = data.days.firstOrNull()
             if (today != null) {
-                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    AsyncImage(model = "https://openweathermap.org/img/wn/${today.icon}@2x.png", contentDescription = null)
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(text = "${today.temperatureCelsius}°C - ${today.weatherMain}", style = MaterialTheme.typography.titleLarge)
-                        Text(text = "Humidity: ${today.humidityPercent}%")
-                        Text(text = "Wind: ${String.format("%.1f", today.windSpeedMetersPerSecond)} m/s")
-                        Text(text = "Pressure: ${today.pressureHPa} hPa")
+                Row(modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.padding_md)), horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
+                    AsyncImage(model = "${context.getString(R.string.weather_icon_base_url)}${today.icon}${context.getString(R.string.weather_icon_suffix)}", contentDescription = null)
+                    Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xs))) {
+                        Text(text = context.getString(R.string.temperature_with_weather, today.temperatureCelsius, today.weatherMain), style = MaterialTheme.typography.titleLarge)
+                        Text(text = context.getString(R.string.humidity_label, today.humidityPercent))
+                        Text(text = context.getString(R.string.wind_label, today.windSpeedMetersPerSecond))
+                        Text(text = context.getString(R.string.pressure_label, today.pressureHPa))
                     }
                 }
             }

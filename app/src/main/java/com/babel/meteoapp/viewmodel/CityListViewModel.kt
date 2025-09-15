@@ -14,13 +14,23 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import com.babel.meteoapp.R
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @HiltViewModel
 class CityListViewModel @Inject constructor(
-    private val getCitySummary: GetCitySummaryUseCase
+    private val getCitySummary: GetCitySummaryUseCase,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
-    private val defaultCities = listOf("Casablanca", "Rabat", "Marrakech", "Tangier", "Fes")
+    private val defaultCities = listOf(
+        context.getString(R.string.default_city_casablanca),
+        context.getString(R.string.default_city_rabat),
+        context.getString(R.string.default_city_marrakech),
+        context.getString(R.string.default_city_tangier),
+        context.getString(R.string.default_city_fes)
+    )
 
     private val _cities = MutableStateFlow(defaultCities)
     private val _searchQuery = MutableStateFlow("")

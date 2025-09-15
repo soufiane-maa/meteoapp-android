@@ -8,8 +8,9 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import com.babel.meteoapp.R
 
-class LocationProviderImpl(context: Context) : LocationProvider {
+class LocationProviderImpl(private val context: Context) : LocationProvider {
     private val client: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
     @SuppressLint("MissingPermission")
@@ -17,7 +18,7 @@ class LocationProviderImpl(context: Context) : LocationProvider {
         val loc = suspendCancellableCoroutine<android.location.Location> { cont ->
             client.lastLocation
                 .addOnSuccessListener { location ->
-                    if (location != null) cont.resume(location) else cont.resumeWithException(IllegalStateException("No location"))
+                    if (location != null) cont.resume(location) else cont.resumeWithException(IllegalStateException(context.getString(R.string.no_location_error)))
                 }
                 .addOnFailureListener { e -> cont.resumeWithException(e) }
         }

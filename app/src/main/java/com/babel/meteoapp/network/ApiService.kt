@@ -2,6 +2,10 @@ package com.babel.meteoapp.network
 
 import retrofit2.http.GET
 import retrofit2.http.Query
+import com.babel.meteoapp.R
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 interface ApiService {
     // OpenWeatherMap 5 day / 3 hour forecast

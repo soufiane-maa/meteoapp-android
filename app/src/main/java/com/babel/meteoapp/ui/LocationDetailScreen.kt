@@ -23,6 +23,8 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationServices
 import androidx.compose.ui.platform.LocalContext
+import com.babel.meteoapp.R
+import androidx.compose.ui.res.dimensionResource
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -41,8 +43,8 @@ fun LocationDetailScreen(
         if (!finePermission.status.isGranted) finePermission.launchPermissionRequest()
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Current location forecast", style = MaterialTheme.typography.headlineSmall)
+    Column(modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_lg)), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
+        Text(context.getString(R.string.current_location_forecast), style = MaterialTheme.typography.headlineSmall)
         if (errorMessage != null) Text(errorMessage, color = MaterialTheme.colorScheme.error)
         Button(onClick = {
             val client = LocationServices.getFusedLocationProviderClient(context)
@@ -55,15 +57,15 @@ fun LocationDetailScreen(
             } catch (e: SecurityException) {
                 // ignore; permission not granted
             }
-        }) { Text("Use current location") }
+        }) { Text(context.getString(R.string.use_current_location)) }
 
         if (data != null) {
             val today = data.days.firstOrNull()
             if (today != null) {
-                Text(text = "${data.cityName}: ${today.temperatureCelsius}°C ${today.weatherMain}")
-                Text(text = "Humidity: ${today.humidityPercent}%")
-                Text(text = "Wind: ${String.format("%.1f", today.windSpeedMetersPerSecond)} m/s")
-                Text(text = "Pressure: ${today.pressureHPa} hPa")
+                Text(text = context.getString(R.string.city_weather_format, data.cityName, today.temperatureCelsius, today.weatherMain))
+                Text(text = context.getString(R.string.humidity_label, today.humidityPercent))
+                Text(text = context.getString(R.string.wind_label, today.windSpeedMetersPerSecond))
+                Text(text = context.getString(R.string.pressure_label, today.pressureHPa))
             }
         }
     }
