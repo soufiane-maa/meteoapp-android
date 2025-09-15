@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.babel.meteoapp.R
@@ -61,7 +63,9 @@ class CityListViewModel @Inject constructor(
         if (trimmed.isEmpty()) return
         if (_cities.value.contains(trimmed)) return
         _cities.value = _cities.value + trimmed
-        fetchCitySummary(trimmed)
+        viewModelScope.launch {
+            fetchCitySummary(trimmed)
+        }
     }
 
     fun removeCity(city: String) {
@@ -75,22 +79,42 @@ class CityListViewModel @Inject constructor(
         refreshJob = viewModelScope.launch {
             _isRefreshing.value = true
             _errorMessage.value = null
-            val current = _cities.value
-            current.forEach { city -> fetchCitySummary(city) }
+            
+            // Refresh all default cities, not just the ones in the current list
+            // This ensures that if a user deleted a default city, it will be refreshed and re-added
+            val citiesToRefresh = defaultCities
+            
+            println("DEBUG: Starting refresh for all default cities: $citiesToRefresh")
+            
+            // Launch all fetch operations and wait for them to complete
+            val fetchJobs = citiesToRefresh.map { city -> 
+                async { 
+                    println("DEBUG: Fetching data for city: $city")
+                    fetchCitySummary(city)
+                }
+            }
+            
+            // Wait for all fetch operations to complete
+            fetchJobs.awaitAll()
+            
+            // Re-add all default cities to the list (this will restore any deleted default cities)
+            _cities.value = defaultCities
+            
+            println("DEBUG: Refresh completed. Current summaries: ${_citySummaries.value}")
             _isRefreshing.value = false
         }
     }
 
-    private fun fetchCitySummary(city: String) {
-        viewModelScope.launch {
-            getCitySummary(city)
-                .onSuccess { summary ->
-                    _citySummaries.value = _citySummaries.value + (city to summary.copy(name = city))
-                }
-                .onFailure { throwable ->
-                    _errorMessage.value = throwable.message
-                }
-        }
+    private suspend fun fetchCitySummary(city: String) {
+        getCitySummary(city)
+            .onSuccess { summary ->
+                println("DEBUG: Successfully fetched data for $city: $summary")
+                _citySummaries.value = _citySummaries.value + (city to summary.copy(name = city))
+            }
+            .onFailure { throwable ->
+                println("DEBUG: Failed to fetch data for $city: ${throwable.message}")
+                _errorMessage.value = throwable.message
+            }
     }
 }
 

@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -82,8 +83,17 @@ fun CityListScreen(
                 IconButton(onClick = onCurrentLocationClick) {
                     Icon(Icons.Filled.MyLocation, contentDescription = context.getString(R.string.my_location_desc))
                 }
-                IconButton(onClick = onRefresh) {
-                    Icon(androidx.compose.material.icons.Icons.Default.Refresh, contentDescription = context.getString(R.string.refresh_desc))
+                if (isRefreshing) {
+                    // Show loading indicator during refresh
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(16.dp),
+                        color = Color.White,
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    IconButton(onClick = onRefresh) {
+                        Icon(Icons.Filled.Refresh, contentDescription = context.getString(R.string.refresh_desc))
+                    }
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary, titleContentColor = Color.White, actionIconContentColor = Color.White)
