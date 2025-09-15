@@ -24,6 +24,7 @@ import androidx.compose.ui.res.dimensionResource
 import coil.compose.AsyncImage
 import com.babel.meteoapp.R
 import com.babel.meteoapp.domain.CitySummary
+import com.babel.meteoapp.config.ApiConfig
 import android.content.Context
 
 /**
@@ -57,7 +58,7 @@ fun CityCard(item: CitySummary, onRemove: () -> Unit, onClick: () -> Unit, conte
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
                     AsyncImage(
-                        model = "${context.getString(R.string.weather_icon_base_url)}${item.icon}${context.getString(R.string.weather_icon_suffix)}",
+                        model = "${ApiConfig.WeatherIcons.BASE_URL}${item.icon}${ApiConfig.WeatherIcons.SUFFIX}",
                         contentDescription = null,
                         modifier = Modifier.height(dimensionResource(R.dimen.weather_icon_size))
                     )

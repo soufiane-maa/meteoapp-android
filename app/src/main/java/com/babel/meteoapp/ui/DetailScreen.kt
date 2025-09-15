@@ -21,6 +21,7 @@ import com.babel.meteoapp.domain.ForecastDetails
 import androidx.compose.ui.platform.LocalContext
 import com.babel.meteoapp.R
 import androidx.compose.ui.res.dimensionResource
+import com.babel.meteoapp.config.ApiConfig
 
 @Composable
 fun DetailScreen(
@@ -39,7 +40,7 @@ fun DetailScreen(
             val today = data.days.firstOrNull()
             if (today != null) {
                 Row(modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.padding_md)), horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
-                    AsyncImage(model = "${context.getString(R.string.weather_icon_base_url)}${today.icon}${context.getString(R.string.weather_icon_suffix)}", contentDescription = null)
+                        AsyncImage(model = "${ApiConfig.WeatherIcons.BASE_URL}${today.icon}${ApiConfig.WeatherIcons.SUFFIX}", contentDescription = null)
                     Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xs))) {
                         Text(text = context.getString(R.string.temperature_with_weather, today.temperatureCelsius, today.weatherMain), style = MaterialTheme.typography.titleLarge)
                         Text(text = context.getString(R.string.humidity_label, today.humidityPercent))

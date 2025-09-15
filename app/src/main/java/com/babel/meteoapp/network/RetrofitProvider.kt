@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.babel.meteoapp.R
+import com.babel.meteoapp.config.ApiConfig
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class RetrofitProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val baseUrl = context.getString(R.string.api_base_url)
+    // Use centralized configuration instead of string resources
+    private val baseUrl = ApiConfig.BASE_URL
 
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {

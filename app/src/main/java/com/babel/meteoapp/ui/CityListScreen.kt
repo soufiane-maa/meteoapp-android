@@ -53,6 +53,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import com.babel.meteoapp.ui.theme.LocalWindowSizeClass
 import com.babel.meteoapp.ui.theme.ResponsiveDesign
 import com.babel.meteoapp.ui.CityCard
+import com.babel.meteoapp.config.ApiConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -163,10 +164,10 @@ private fun CityRow(item: CitySummary, onRemove: () -> Unit, onClick: () -> Unit
             .clickable { onClick() }
             .padding(dimensionResource(R.dimen.padding_lg)), horizontalArrangement = Arrangement.SpaceBetween) {
             Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md))) {
-                AsyncImage(
-                    model = "${context.getString(R.string.weather_icon_base_url)}${item.icon}${context.getString(R.string.weather_icon_suffix)}",
-                    contentDescription = null
-                )
+                    AsyncImage(
+                        model = "${ApiConfig.WeatherIcons.BASE_URL}${item.icon}${ApiConfig.WeatherIcons.SUFFIX}",
+                        contentDescription = null
+                    )
                 Column {
                     Text(item.name, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
                     Text(item.weatherMain)

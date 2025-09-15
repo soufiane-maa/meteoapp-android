@@ -38,13 +38,6 @@
     <!-- Error Messages -->
     <string name="no_location_error">No location</string>
     
-    <!-- API -->
-    <string name="api_base_url">https://api.openweathermap.org/</string>
-    <string name="api_forecast_endpoint">data/2.5/forecast</string>
-    <string name="api_units_metric">metric</string>
-    <string name="weather_icon_base_url">https://openweathermap.org/img/wn/</string>
-    <string name="weather_icon_suffix">@2x.png</string>
-    
     <!-- JSON Field Names -->
     <string name="json_list">list</string>
     <string name="json_city">city</string>
